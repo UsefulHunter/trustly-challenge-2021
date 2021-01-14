@@ -5,7 +5,7 @@ import { withRouter } from "next/router";
 import { Header } from "../components/Header";
 const Checkout = (props) => {
   console.log(props.router.query.data);
-  const data = JSON.parse(props.router.query.data);
+  const data = JSON.parse(props.router.query.data ?? null);
   console.log(data);
   return (
     <CheckoutContainer>
