@@ -1,41 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { ShoesSize } from "../../utils/ShoesSize";
 import { ShoesQuantity } from "../../utils/ShoesQuantity";
 
-const Item = ({ item }) => (
-  <ItemContainer>
-    <ItemImage
-      src={item.thumbnailURL}
-      alt={`This sneaker have a ${item.color} color`}
-    />
-    <ItemTitle>{item.description}</ItemTitle>
-    <ItemSelectContainer>
-      <ItemLabel>Size</ItemLabel>
-      <ItemSelect>
-        {ShoesSize.map((size) => {
-          return (
-            <option key={size.value} value={size.value}>
-              {size.value}
-            </option>
-          );
-        })}
-      </ItemSelect>
-      <ItemLabel>Quantity</ItemLabel>
-      <ItemSelect>
-        {ShoesQuantity.map((quantity) => {
-          return (
-            <option key={quantity.value} value={quantity.value}>
-              {quantity.value}
-            </option>
-          );
-        })}
-      </ItemSelect>
-    </ItemSelectContainer>
-    <ItemPrice>$ {item.price}</ItemPrice>
-    <ItemButton>Add to Cart</ItemButton>
-  </ItemContainer>
-);
+const Item = ({ item }) => {
+  const router = useRouter();
+  const [quantityState, setQuantityState] = useState(1);
+  const [sizeState, setSizeState] = useState(36);
+
+  const handleClick = () => {
+    const quantity = quantityState;
+    const size = sizeState;
+    const finalPrice = item.price * quantityState;
+    const payload = { item, quantity, size, finalPrice };
+    console.log(payload);
+    //router.push("/checkout", undefined, { payload, shallow: true });
+    router.push({
+      pathname: "/checkout",
+      query: { data: JSON.stringify(payload) },
+    });
+  };
+  return (
+    <ItemContainer>
+      <ItemImage
+        src={item.thumbnailURL}
+        alt={`This sneaker have a ${item.color} color`}
+      />
+      <ItemTitle>{item.description}</ItemTitle>
+      <ItemSelectContainer>
+        <ItemLabel>Size</ItemLabel>
+        <ItemSelect onChange={(e) => setSizeState(e.target.value)}>
+          {ShoesSize.map((size) => {
+            return (
+              <option key={size.value} value={size.value}>
+                {size.value}
+              </option>
+            );
+          })}
+        </ItemSelect>
+        <ItemLabel>Quantity</ItemLabel>
+        <ItemSelect onChange={(e) => setQuantityState(e.target.value)}>
+          {ShoesQuantity.map((quantity) => {
+            return (
+              <option key={quantity.value} value={quantity.value}>
+                {quantity.value}
+              </option>
+            );
+          })}
+        </ItemSelect>
+      </ItemSelectContainer>
+      <ItemPrice>$ {item.price * quantityState}</ItemPrice>
+      <ItemButton onClick={handleClick}>Add to Cart</ItemButton>
+    </ItemContainer>
+  );
+};
 
 const ItemContainer = styled.div`
   display: flex;

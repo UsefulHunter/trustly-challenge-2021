@@ -1,0 +1,19 @@
+const ArrowIcon = () => (
+  <svg
+    width="18"
+    height="19"
+    viewBox="0 0 18 19"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ alignSelf: "center" }}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M17.5705 8.41865H4.33369L10.4083 2.34409L8.86922 0.805054L0.167969 9.50631L8.86922 18.2076L10.4083 16.6685L4.33369 10.594H17.5705V8.41865Z"
+      fill="black"
+    />
+  </svg>
+);
+
+export { ArrowIcon };
